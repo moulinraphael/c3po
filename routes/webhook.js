@@ -17,6 +17,22 @@ router.get('/webhook/', function(req, res, next) {
   };
 });
 
+
+router.post('/webhook/', function(req, res, next) {
+  var data = req.body;
+
+  if (data.object === 'page') {
+    data.entry.forEach(function(entry) {
+      entry.messaging.forEach(function(event) {
+        if (event.message) {
+          var senderId = event.sender.id;
+          chatService.sendTextMessage(senderId, event.message.text);
+        }
+      });
+    });
+  }
+});
+
 /* POST route for receiving message */
 /*
 router.post('/', function (req, res) {
