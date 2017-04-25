@@ -20,7 +20,8 @@ router.get('/webhook/', function(req, res, next) {
 
 router.post('/webhook/', function(req, res, next) {
   var data = req.body;
-
+  console.log(data);
+  
   if (data.object === 'page') {
     data.entry.forEach(function(entry) {
       entry.messaging.forEach(function(event) {
