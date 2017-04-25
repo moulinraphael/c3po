@@ -24,9 +24,9 @@ router.post('/webhook/', function(req, res, next) {
   if (data.object === 'page') {
     data.entry.forEach(function(entry) {
       entry.messaging.forEach(function(event) {
-        console.log(event);
         if (event.message) {
           var senderId = event.sender.id;
+          console.log(event)
           chatService.sendTextMessage(senderId, event.message.text);
         }
       });
