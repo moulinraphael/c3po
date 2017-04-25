@@ -32,6 +32,8 @@ router.post('/webhook/', function(req, res, next) {
       });
     });
   }
+
+  res.sendStatus(200);
 });
 
 /* POST route for receiving message */
