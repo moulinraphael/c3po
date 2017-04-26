@@ -9,7 +9,7 @@ const
   parser = require('json-parser');
 
 /* GET webhook auth. */
-router.get('/webhook/', function(req, res, next) {
+router.get('/', function(req, res, next) {
   if (chatService.authenticate(req)) {
     res.status(200).send(req.query['hub.challenge']);
   } else {
@@ -18,7 +18,7 @@ router.get('/webhook/', function(req, res, next) {
 });
 
 
-router.post('/webhook/', function(req, res, next) {
+router.post('/', function(req, res, next) {
   var data = req.body;
 
   if (data.object === 'page') {
