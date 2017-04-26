@@ -26,8 +26,18 @@ router.post('/', function(req, res, next) {
       entry.messaging.forEach(function(event) {
         if (event.message) {
           var senderId = event.sender.id;
-          console.log(event)
           chatService.sendTextMessage(senderId, event.message.text);
+
+          var users = req.app.get('users');
+          if (!users[senderId]) {
+            users[senderId] = {
+              last_date: null,
+              messages: []
+            };
+          }
+
+          users[senderId].last_date = entry.time;
+          users[senderId].messages.push(event);
         }
       });
     });

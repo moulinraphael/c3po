@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1 Liste des utilisateurs
+
+    table.table.table-bordered
+        tr
+            td 
+                b ID
+            td 
+                b Date
+
+
+        each value, index in users
+            tr
+                td= index
+                td= value.last_date
