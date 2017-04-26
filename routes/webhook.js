@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   var data = req.body;
+  console.log(JSON.stringify(data));
 
   if (data.object === 'page') {
     data.entry.forEach(function(entry) {
@@ -30,6 +31,8 @@ router.post('/', function(req, res, next) {
           chatService.sendTextMessage(senderId, event.message.text);
 
           var users = req.app.get('users');
+          console.log(JSON.stringify(event));
+
           if (!users[senderId]) {
             users[senderId] = {
               last_date: null,
