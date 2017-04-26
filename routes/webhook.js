@@ -37,7 +37,7 @@ router.post('/', function(req, res, next) {
             };
           }
 
-          users[senderId].last_date = moment(entry.time).format();
+          users[senderId].last_date = moment(entry.time).format("YYYY-MM-DD");
           users[senderId].messages.push(event);
         }
       });
