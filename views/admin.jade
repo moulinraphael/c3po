@@ -13,5 +13,6 @@ block content
 
         each value, index in users
             tr
-                td= index
+                td
+                    a(href="/admin/#{index}")= index
                 td= value.last_date
