@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 
 const
@@ -36,7 +37,7 @@ router.post('/', function(req, res, next) {
             };
           }
 
-          users[senderId].last_date = entry.time;
+          users[senderId].last_date = moment(entry.time).format();
           users[senderId].messages.push(event);
         }
       });
