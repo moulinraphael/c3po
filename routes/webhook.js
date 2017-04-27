@@ -1,6 +1,9 @@
 var express = require('express');
 var moment = require('moment');
+var jsondb = require('node-json-db');
+
 var router = express.Router();
+var db = new jsondb("MyDatabase.json", true, false);
 
 const
   chatService = require('../server/chatService'),
@@ -27,23 +30,28 @@ router.post('/', function(req, res, next) {
     data.entry.forEach(function(entry) {
       entry.messaging.forEach(function(event) {
         if (event.message) {
+          var uid = '/users[' + senderId + ']';
           var senderId = event.sender.id;
-          var users = req.app.get('users');
           var first = false;
+          var user; 
+
+          try {
+            user = db.getData(uid);
+          } catch(err) {
+            user = null;
+          }
 
           //L'utilisateur n'est pas connu
-          if (!users[senderId]) {
+          if (!user) {
             first = true;
-            users[senderId] = {
+            db.push(uid, {
               last_date: null,
               data: null,
               messages: []
-            };
+            });
 
             chatService.getUserData(senderId, function(data) {
-              users[senderId].data = data;
-              console.log(data);
-              console.log(users);
+              db.push(uid + '/data', data);
             });
           }
 
@@ -51,8 +59,8 @@ router.post('/', function(req, res, next) {
             chatService.sendTextMessage(senderId, first ? MESSAGE_FIRST : MESSAGE_OTHER);
           }
 
-          users[senderId].last_date = moment(entry.time).format("YYYY-MM-DD");
-          users[senderId].messages.push(event);
+          db.push(uid + '/last_date', moment(entry.time).format("YYYY-MM-DD"));
+          db.push(uid + '/messages[]', event);
         }
       });
     });

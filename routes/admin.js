@@ -1,28 +1,39 @@
+var jsondb = require('node-json-db');
 var express = require('express');
+
 var router = express.Router();
+var db = new jsondb("MyDatabase.json", true, false);
 
 const
   chatService = require('../server/chatService');
 
 router.get('/', function(req, res, next) {
+    var users;
+
+    try {
+      users = db.getData('/users')
+    } catch(err) {
+      users = [];
+    }
+
   	res.render('admin', {
-  		users: req.app.get('users'),
+  		users: users,
   		etat: req.app.get('bouton')
   	});
 });
 
 router.get('/:user_id', function(req, res, next) {
 	var user_id = req.params.user_id;
-	var users = req.app.get('users');
-    if (!users[user_id]) {
-    	res.sendStatus(404);
-    } else {
-    	console.log(users);
-  		res.render('user', {
-  			user_id: user_id, 
-			data: users[user_id].data,
-  			messages: users[user_id].messages});
-    } 
+  try {
+    var user = db.getData('/users[' + user_id + ']');
+  } catch(err) {
+    return res.sendStatus(404);
+  }
+    
+	res.render('user', {
+		user_id: user_id, 
+	  data: user.data,
+		messages: user.messages});
 });
 
 router.get('/bouton/:etat', function(req, res, next) {
