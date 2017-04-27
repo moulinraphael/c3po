@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -14,7 +15,6 @@ router.get('/:user_id', function(req, res, next) {
     if (!users[user_id]) {
     	res.sendStatus(404);
     } else {
-    	console.log(users[user_id].messages);
   		res.render('user', {
   			user_id: user_id, 
   			messages: users[user_id].messages});
