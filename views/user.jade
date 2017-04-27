@@ -14,5 +14,5 @@ block content
 
         each message in messages
             tr
-                td
-                td
+                td= moment(message.timestamp).format("YYYY-MM-DD HH:mm:ss")
+                td= message.message.text
