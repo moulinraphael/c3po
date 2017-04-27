@@ -17,6 +17,7 @@ router.get('/:user_id', function(req, res, next) {
     if (!users[user_id]) {
     	res.sendStatus(404);
     } else {
+    	console.log(users);
   		res.render('user', {
   			user_id: user_id, 
 			data: users[user_id].data,
