@@ -16,6 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('users', {});
 app.set('bouton', 'off');
+app.locals.moment = require('moment');
 
 
 // uncomment after placing your favicon in /public
