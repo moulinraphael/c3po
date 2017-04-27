@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  	res.render('admin', {users: req.app.get('users')});
+  	res.render('admin', {
+  		users: req.app.get('users'),
+  		etat: req.app.get('bouton')
+  	});
 });
 
 router.get('/:user_id', function(req, res, next) {
@@ -13,6 +16,16 @@ router.get('/:user_id', function(req, res, next) {
     } else {
   		res.render('user', {user_id: user_id});
     } 
+});
+
+router.get('/bouton/:etat', function(req, res, next) {
+	var etat = req.params.etat;
+	if (etat == 'on' || etat == 'off') {
+		req.app.set('bouton', etat);
+		res.sendStatus(200);
+	} else {
+		res.send(200, req.app.get('bouton'));
+	}
 });
 
 module.exports = router;

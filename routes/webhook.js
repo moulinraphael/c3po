@@ -21,9 +21,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   var data = req.body;
-  console.log(JSON.stringify(data));
+  var etat = req.app.get('bouton');
 
-  if (data.object === 'page') {
+  if (etat == 'off' && data.object === 'page') {
     data.entry.forEach(function(entry) {
       entry.messaging.forEach(function(event) {
         if (event.message) {
