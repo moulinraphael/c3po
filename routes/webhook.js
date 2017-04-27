@@ -42,6 +42,7 @@ router.post('/', function(req, res, next) {
 
             chatService.getUserData(senderId, function(data) {
               users[senderId].data = data;
+              console.log(data);
             });
           }
 
