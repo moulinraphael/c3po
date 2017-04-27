@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+const
+  chatService = require('../server/chatService');
+
 router.get('/', function(req, res, next) {
   	res.render('admin', {
   		users: req.app.get('users'),
@@ -16,6 +19,7 @@ router.get('/:user_id', function(req, res, next) {
     } else {
   		res.render('user', {
   			user_id: user_id, 
+			data: users[user_id].data,
   			messages: users[user_id].messages});
     } 
 });

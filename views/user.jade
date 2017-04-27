@@ -3,6 +3,22 @@ extends layout
 block content
     h1= user_id
 
+    img(src="#{data.profile_pic}", style="float:left; width:100px; margin-right:20px")
+
+    ul
+        li
+            b Last Name :
+            span= data.last_name
+        li 
+            b First Name :
+            span= data.first_name
+        li 
+            b Gender
+            span= data.gender
+        li 
+            b Locale
+            span= data.locale
+
 
     table.table.table-bordered
         tr

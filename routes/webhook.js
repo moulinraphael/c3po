@@ -4,9 +4,6 @@ var router = express.Router();
 
 const
   chatService = require('../server/chatService'),
-  weatherService = require('../server/weatherService'),
-  WeatherData = require('../server/model/weatherData'),
-  userService = require('../server/userService'),
   parser = require('json-parser');
 
 const MESSAGE_FIRST = "Hello !\nMerci pour ton message. Malheureusement, personne n'est disponible pour te répondre maintenant. Nous reviendrons vers toi demain matin ! En attendant, tu peux peut être me donner ton numéro de téléphone, comme ça je t'appellerai direct !\nA plus !";
@@ -39,8 +36,13 @@ router.post('/', function(req, res, next) {
             first = true;
             users[senderId] = {
               last_date: null,
+              data: null,
               messages: []
             };
+
+            chatService.getUserData(senderId, function(data) {
+              users[senderId].data = data;
+            });
           }
 
           if (etat == 'off') {

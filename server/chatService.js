@@ -121,11 +121,29 @@ function callSendAPI(messageData) {
   });
 }
 
+function getUserData(userId, callback) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/' + userId,
+    qs: { access_token: PAGE_ACCESS_TOKEN },
+    method: 'GET'
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      callback(body);
+      console.log("Successfully get user data");
+    } else {
+      console.error("Unable to get user data");
+      console.error(response);
+      console.error(error);
+    }
+  });
+}
+
 module.exports = {
   authenticate: authenticate,
   receivedMessage: receivedMessage,
   sendTextMessage: sendTextMessage,
   sendQuickReply: sendQuickReply,
+  getUserData: getUserData,
   sendCarouselReply: sendCarouselReply,
   sendGenericMessage: sendGenericMessage
 }
