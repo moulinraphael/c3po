@@ -128,7 +128,6 @@ function getUserData(userId, callback) {
     method: 'GET'
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      callback(JSON.parse(body));
       console.log("Successfully get user data");
     } else {
       console.error("Unable to get user data");

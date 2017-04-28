@@ -1,10 +1,10 @@
 var express = require('express');
 var moment = require('moment');
-var jsondb = require('node-json-db');
 var chatService = require('../server/chatService');
+var firebaseService = require('../server/firebaseService');
 
 var router = express.Router();
-var db = new jsondb("MyDatabase.json", true, false);
+
 
 const MESSAGE_AUTO = "Hello !\nMerci pour ton message. " + 
     "Malheureusement, personne n'est disponible pour te répondre maintenant. " +
@@ -26,44 +26,41 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     var data = req.body;
     var etat = req.app.get('bouton');
-    db.reload();
 
     if (data.object === 'page') {
         data.entry.forEach(function(entry) {
             entry.messaging.forEach(function(event) {
                 if (event.message) {
                     var user_id = event.sender.id;
-                    var uid = '/users/' + user_id;
+                    var uid = 'users/' + user_id;
                     var user; 
 
                     //On essaie de récupérer l'utilisateur
-                    try {
-                        user = db.getData(uid);
-                    } catch(err) {
-                        user = null;
-                    }
+                    firebaseService.db.ref(uid).once("value", function(data) {
+                        user = data.val();
 
-                    //L'utilisateur n'est pas connu
-                    if (!user) {
-                        db.push(uid, {
-                            last_date: null,
-                            data: null,
-                            messages: []
-                        });                       
+                        //L'utilisateur n'est pas connu
+                        if (!user) {
+                            firebaseService.db.ref(uid).set({
+                                last_date: null,
+                                data: null,
+                                messages: []
+                            });                       
 
-                        //On récupère les données Facebook de l'utilisateur
-                        chatService.getUserData(user_id, function(data) {
-                            db.push(uid + '/data', data);
-                        });
-                    }
+                            //On récupère les données Facebook de l'utilisateur
+                            chatService.getUserData(user_id, function(data) {
+                                firebaseService.db.ref(uid + '/data').set(data);
+                            });
+                        }
 
-                    //Le bot est actif, on envoie un message automatiuqe
-                    if (etat == 'off') {
-                        chatService.sendTextMessage(user_id, MESSAGE_AUTO);
-                    }
+                        //Le bot est actif, on envoie un message automatiuqe
+                        if (etat == 'off') {
+                            chatService.sendTextMessage(user_id, MESSAGE_AUTO);
+                        }
 
-                    db.push(uid + '/last_date', entry.time);
-                    db.push(uid + '/messages[]', event);
+                        firebaseService.db.ref(uid + '/last_date').set(entry.time);
+                        firebaseService.db.ref(uid + '/messages').push(event);
+                    });
                 }
             });
         });
