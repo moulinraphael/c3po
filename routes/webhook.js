@@ -40,28 +40,19 @@ router.post('/', function(req, res, next) {
                         user = db.getData(uid);
                     } catch(err) {
                         user = null;
-                        console.log(err);
                     }
-                    console.log(uid);
-                    console.log(user);
 
                     //L'utilisateur n'est pas connu
                     if (!user) {
-                        try {
                         db.push(uid, {
                             last_date: null,
                             data: null,
                             messages: []
-                        });
-                        } catch(err) {
-                            console.log(uid);
-                            console.log(err);
-                        }                        
+                        });                       
 
                         //On récupère les données Facebook de l'utilisateur
                         chatService.getUserData(user_id, function(data) {
                             db.push(uid + '/data', data);
-                            console.log(data);
                         });
                     }
 

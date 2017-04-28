@@ -11,6 +11,7 @@ const chatService = require('../server/chatService');
 router.get('/', function(req, res, next) {
     var users;
     var etat = req.app.get('bouton');
+    console.log(JSON.stringify(db.getData('/')));
 
     // Récupération des utilisateurs
     try {
