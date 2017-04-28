@@ -3,11 +3,8 @@ extends layout
 block content
     script.
         function changeEtat(input) {
-            if ($(input).is(':checked')) {
-                $.get('/admin/bouton/on');
-            } else {
-                $.get('/admin/bouton/off');
-            }
+            var etat = $(input).is(':checked') ? 'on' : 'off';
+            $.get('/admin/bouton/' + etat);
         }
 
     style.
@@ -16,9 +13,9 @@ block content
     h1 Liste des utilisateurs
 
     if etat == 'on'
-        input(type="checkbox", checked, data-toggle="toggle",  data-style="ios", data-on="ON (Humain répond)", data-off="OFF (Bot répond)", onchange="changeEtat(this)")
+        input(type="checkbox", checked, data-toggle="toggle", data-on="ON (Humain répond)", data-off="OFF (Bot répond)", onchange="changeEtat(this)")
     else
-        input(type="checkbox", data-toggle="toggle",  data-style="ios", data-on="ON (Humain répond)", data-off="OFF (Bot répond)",  onchange="changeEtat(this)")
+        input(type="checkbox", data-toggle="toggle", data-on="ON (Humain répond)", data-off="OFF (Bot répond)", onchange="changeEtat(this)")
 
     br
     br
