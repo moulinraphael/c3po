@@ -32,7 +32,7 @@ router.get('/:user_id', function(req, res, next) {
 
     // L'utilisateur existe-t-il bien ?
     try {
-        var user = db.getData('/users[' + user_id + ']');
+        var user = db.getData('/users/' + user_id);
     } catch(err) {
         return res.sendStatus(404);
     }

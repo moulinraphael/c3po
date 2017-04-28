@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
             entry.messaging.forEach(function(event) {
                 if (event.message) {
                     var user_id = event.sender.id;
-                    var uid = '/users[' + user_id + ']';
+                    var uid = '/users/' + user_id;
                     var user; 
 
                     //On essaie de récupérer l'utilisateur
