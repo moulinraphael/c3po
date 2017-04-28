@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
     firebaseService.db.ref('users').once("value", function(data) {
         users = data.val();
         res.render('admin', {
-            users: users,
+            users: users == null ? {} : users,
             etat: etat
         });
     }, function(error) {

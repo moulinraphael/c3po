@@ -43,11 +43,7 @@ router.post('/', function(req, res, next) {
                         //On récupère les données Facebook de l'utilisateur
                         if (!user) {
                             chatService.getUserData(user_id, function(data) {
-                                firebaseService.db.ref(uid).set({
-                                    last_date: null,
-                                    data: data,
-                                    messages: []
-                                });
+                                firebaseService.db.ref(uid + '/data').set(data);
                             });
                         }
 
