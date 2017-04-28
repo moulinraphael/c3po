@@ -1,5 +1,6 @@
 {
   "serverUrl": "https://c3po-sr.herokuapp.com",
   "pageAccessToken": "EAAEVewUZCmncBAMmIn6whZCmaaiuzV1qM8lfgBUtUUR0c2pvY1nZCbxWN0CGZCyCtpTibPh6uhlfXwZCz9u52teNciQghAHSmc2t3YJCdEczOcDjiHprqkOKZB6HRuFKsG4JcLrDCFMxPnMiz3UqvnZBGXVetyLBypZBlu3BEryFsAZDZD",
-  "validationToken": "ju6dlknOTN"
+  "validationToken": "ju6dlknOTN",
+  "databaseUrl": "https://c3po-sr.firebaseio.com"
 }

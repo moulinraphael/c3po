@@ -1,5 +1,4 @@
 var express = require('express');
-var moment = require('moment');
 var chatService = require('../server/chatService');
 var firebaseService = require('../server/firebaseService');
 

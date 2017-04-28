@@ -30,10 +30,11 @@ router.get('/:user_id', function(req, res, next) {
     var user_id = req.params.user_id;
     var user;
 
-    // L'utilisateur existe-t-il bien ?
+    // On récupère l'utilisateur
     firebaseService.db.ref('users/' + user_id).once("value", function(data) {
         user = data.val();
 
+        //Existe-t-il bien ?
         if (user == null) {
             res.sendStatus(404);
         } else {

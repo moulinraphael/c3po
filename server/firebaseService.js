@@ -1,7 +1,11 @@
 var firebase = require('firebase');
-var firebaseApp = firebase.initializeApp({
-    databaseURL: "https://c3po-sr.firebaseio.com"
-});
+var config = require('config');
+
+const DATABASE_URL = (process.env.FIREBASE_DATABASE_URL) ?
+  (process.env.FIREBASE_DATABASE_URL) :
+  config.get('databaseUrl');
+
+var firebaseApp = firebase.initializeApp({databaseURL: DATABASE_URL});
 var db = firebaseApp.database();
 
 module.exports = {
