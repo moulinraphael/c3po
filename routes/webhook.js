@@ -51,14 +51,14 @@ router.post('/', function(req, res, next) {
                         });
 
                         //On récupère les données Facebook de l'utilisateur
-                        chatService.getUserData(senderId, function(data) {
+                        chatService.getUserData(user_id, function(data) {
                             db.push(uid + '/data', data);
                         });
                     }
 
                     //Le bot est actif, on envoie un message automatiuqe
                     if (etat == 'off') {
-                        chatService.sendTextMessage(senderId, MESSAGE_AUTO);
+                        chatService.sendTextMessage(user_id, MESSAGE_AUTO);
                     }
 
                     db.push(uid + '/last_date', moment(entry.time).format("YYYY-MM-DD"));
