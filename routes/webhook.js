@@ -53,6 +53,7 @@ router.post('/', function(req, res, next) {
                         //On récupère les données Facebook de l'utilisateur
                         chatService.getUserData(user_id, function(data) {
                             db.push(uid + '/data', data);
+                            console.log(JSON.stringify(db.getData('/')));
                         });
                     }
 
