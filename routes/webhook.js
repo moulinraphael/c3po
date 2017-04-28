@@ -41,6 +41,8 @@ router.post('/', function(req, res, next) {
                     } catch(err) {
                         user = null;
                     }
+                    console.log(uid);
+                    console.log(user);
 
                     //L'utilisateur n'est pas connu
                     if (!user) {
@@ -53,6 +55,7 @@ router.post('/', function(req, res, next) {
                         //On récupère les données Facebook de l'utilisateur
                         chatService.getUserData(user_id, function(data) {
                             db.push(uid + '/data', data);
+                            console.log(data);
                         });
                     }
 
