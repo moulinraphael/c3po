@@ -18,7 +18,6 @@ router.get('/', function(req, res, next) {
         users = db.getData('/users')
     } catch(err) {
         users = [];
-        console.log(err);
     }
     
   	res.render('admin', {
@@ -31,7 +30,8 @@ router.get('/', function(req, res, next) {
 /* Page utilisateur */
 router.get('/:user_id', function(req, res, next) {
     var user_id = req.params.user_id;
-
+    db.reload();
+    
     // L'utilisateur existe-t-il bien ?
     try {
         var user = db.getData('/users/' + user_id);
