@@ -26,6 +26,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     var data = req.body;
     var etat = req.app.get('bouton');
+    db.reload();
 
     if (data.object === 'page') {
         data.entry.forEach(function(entry) {
@@ -53,7 +54,6 @@ router.post('/', function(req, res, next) {
                         //On récupère les données Facebook de l'utilisateur
                         chatService.getUserData(user_id, function(data) {
                             db.push(uid + '/data', data);
-                            console.log(JSON.stringify(db.getData('/')));
                         });
                     }
 
@@ -64,8 +64,6 @@ router.post('/', function(req, res, next) {
 
                     db.push(uid + '/last_date', entry.time);
                     db.push(uid + '/messages[]', event);
-
-                    console.log(JSON.stringify(db.getData('/')));
                 }
             });
         });
