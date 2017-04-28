@@ -61,7 +61,7 @@ router.post('/', function(req, res, next) {
                         chatService.sendTextMessage(user_id, MESSAGE_AUTO);
                     }
 
-                    db.push(uid + '/last_date', moment(entry.time).format("YYYY-MM-DD"));
+                    db.push(uid + '/last_date', entry.time);
                     db.push(uid + '/messages[]', event);
                 }
             });
