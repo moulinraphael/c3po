@@ -18,6 +18,8 @@ router.get('/', function(req, res, next) {
     } catch(err) {
         users = [];
     }
+    
+    console.log(JSON.stringify(db.getData('/')));
 
   	res.render('admin', {
   		users: users,

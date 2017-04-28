@@ -63,6 +63,8 @@ router.post('/', function(req, res, next) {
 
                     db.push(uid + '/last_date', entry.time);
                     db.push(uid + '/messages[]', event);
+
+                    console.log(JSON.stringify(db.getData('/')));
                 }
             });
         });
