@@ -2,47 +2,50 @@ var jsondb = require('node-json-db');
 var express = require('express');
 
 var router = express.Router();
-var db = new jsondb("MyDatabase.json", true, false);
 
-const chatService = require('../server/chatService');
+var firebaseService = require('../server/firebaseService');
+var chatService = require('../server/chatService');
 
 
 /* Accueil de l'administration */
 router.get('/', function(req, res, next) {
     var users;
     var etat = req.app.get('bouton');
-    db.reload();
 
     // Récupération des utilisateurs
-    try {
-        users = db.getData('/users')
-    } catch(err) {
-        users = [];
-    }
-    
-  	res.render('admin', {
-  		users: users,
-  		etat: etat
-  	});
+    firebaseService.db.ref('users').once("value", function(data) {
+        users = data.val();
+        res.render('admin', {
+            users: users,
+            etat: etat
+        });
+    }, function(error) {
+        res.sendStatus(500);
+    });
 });
 
 
 /* Page utilisateur */
 router.get('/:user_id', function(req, res, next) {
     var user_id = req.params.user_id;
-    db.reload();
-    
+    var user;
+
     // L'utilisateur existe-t-il bien ?
-    try {
-        var user = db.getData('/users/' + user_id);
-    } catch(err) {
-        return res.sendStatus(404);
-    }
-    
-	res.render('user', {
-	   user_id:   user_id, 
-	   data:      user.data,
-	   messages:  user.messages});
+    firebaseService.db.ref('users/' + user_id).once("value", function(data) {
+        user = data.val();
+
+        if (user == null) {
+            res.sendStatus(404);
+        } else {
+            res.render('user', {
+                user_id:   user_id, 
+                data:      user.data,
+                messages:  user.messages
+            });
+        } 
+    }, function(error) {
+        res.sendStatus(500);
+    });
 });
 
 

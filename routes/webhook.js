@@ -40,16 +40,14 @@ router.post('/', function(req, res, next) {
                         user = data.val();
 
                         //L'utilisateur n'est pas connu
+                        //On récupère les données Facebook de l'utilisateur
                         if (!user) {
-                            firebaseService.db.ref(uid).set({
-                                last_date: null,
-                                data: null,
-                                messages: []
-                            });                       
-
-                            //On récupère les données Facebook de l'utilisateur
                             chatService.getUserData(user_id, function(data) {
-                                firebaseService.db.ref(uid + '/data').set(data);
+                                firebaseService.db.ref(uid).set({
+                                    last_date: null,
+                                    data: data,
+                                    messages: []
+                                });
                             });
                         }
 
